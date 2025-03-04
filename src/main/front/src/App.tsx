@@ -5,32 +5,32 @@ import './App.css'
 
 import {API_BASE_URL, APP_NAME, APP_VERSION} from "./config";
 
-import { get, post } from "./utils/axiosCommon";
-// import axios from "axios";
+import { sendData } from "./api/SampleService"
+
+interface SampleParams {
+    name: string;
+    age: number;
+}
 
 function App() {
-    const [count, setCount] = useState(0)
+    const [count, setCount] = useState<number>(0)
 
 
-    const sampleCallApi = async () => {
-        let params = {
+    const sampleCallApi = async (): Promise<void> => {
+        let params: SampleParams = {
             name: "hm",
             age: 30
         }
-        let newVar = await post("/api/hello", params);
+        let newVar = await sendData(params);
         console.log(newVar)
     }
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchData = async(): Promise<void> => {
             await sampleCallApi();
         };
 
         fetchData();
-        // (async () => {
-        //     let rtnData = await sampleCallApi()
-        //     console.log(rtnData)
-        // })();
     }, [])
 
     return (

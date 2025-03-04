@@ -5,6 +5,7 @@ import com.hm.springreact.webmvc.ApiRequest;
 import com.hm.springreact.webmvc.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,11 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class SampleController {
 
     @PostMapping("/api/hello")
-    public ApiResponse getHello(ApiRequest request) {
+    public ApiResponse postGetHello(ApiRequest request) {
         SampleVO vo = request.adaptTo(SampleVO.class);
 
+        return ApiResponse.of(vo);
+    }
+
+    @GetMapping("/api/hello2")
+    public ApiResponse getGetHello(ApiRequest request) {
+        SampleVO vo = request.adaptTo(SampleVO.class);
 
         return ApiResponse.of(vo);
-//        return "Hello " + vo.getName() + ", Age: " + vo.getAge();
     }
 }

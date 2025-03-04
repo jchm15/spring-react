@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios, { AxiosInstance, AxiosResponse, AxiosError } from "axios";
 
 // Axios 인스턴스 생성
-const apiClient = axios.create({
+const apiClient: AxiosInstance = axios.create({
     // baseURL: "https://api.example.com",  // 기본 API URL
     baseURL: "http://localhost:8080",  // 기본 API URL
     headers: {
@@ -18,13 +18,13 @@ apiClient.interceptors.request.use(
         }
         return config;
     },
-    (error) => Promise.reject(error)
+    (error: AxiosError) => Promise.reject(error)
 );
 
 // 응답 인터셉터 (예: 에러 핸들링)
 apiClient.interceptors.response.use(
-    (response) => response,
-    (error) => {
+    (response: AxiosResponse) => response,
+    (error: AxiosError) => {
         console.error("API Error:", error);
         if (error.response && error.response.status === 401) {
             alert("세션이 만료되었습니다. 다시 로그인하세요.");
@@ -36,9 +36,9 @@ apiClient.interceptors.response.use(
 );
 
 // 공통 GET 요청 함수
-export const get = async (url, params = {}) => {
+export const get = async <T>(url: string, params: Record<string, any> = {}): Promise<T> => {
     try {
-        const response = await apiClient.get(url, { params });
+        const response: AxiosResponse<T> = await apiClient.get(url, { params });
         return response.data;
     } catch (error) {
         console.error("GET Error:", error);
@@ -47,9 +47,9 @@ export const get = async (url, params = {}) => {
 };
 
 // 공통 POST 요청 함수
-export const post = async (url, data = {}) => {
+export const post = async <T>(url: string, data: Record<string, any> = {}): Promise<T> => {
     try {
-        const response = await apiClient.post(url, data);
+        const response: AxiosResponse<T> = await apiClient.post(url, data);
         return response.data;
     } catch (error) {
         console.error("POST Error:", error);

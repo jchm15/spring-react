@@ -6,31 +6,36 @@ import './App.css'
 import {API_BASE_URL, APP_NAME, APP_VERSION} from "./config";
 
 import { sendData } from "./api/SampleService"
-
-interface SampleParams {
-    name: string;
-    age: number;
-}
+import { SampleParams } from "./types/SampleParams"
+import { ApiResponse } from "./types/ApiCommonTypes"
 
 function App() {
     const [count, setCount] = useState<number>(0)
+    const [name, setName] = useState<string>('');
+    const [age, setAge] = useState<number>(0);
 
 
     const sampleCallApi = async (): Promise<void> => {
-        let params: SampleParams = {
+        let params: Partial<SampleParams> = {   //Partial > 파라미터 인터페이스 내 필드들이 항상 필수값일 필요는 없게 해줌
             name: "hm",
-            age: 30
+            age: count+1
         }
-        let newVar = await sendData(params);
-        console.log(newVar)
+        let resp: ApiResponse  = await sendData(params);
+        setName(resp.body.name);
+        setAge(resp.body.age);
+        setCount(resp.body.age);
+    }
+
+    const clickEvent = () => {
+        sampleCallApi();
     }
 
     useEffect(() => {
-        const fetchData = async(): Promise<void> => {
-            await sampleCallApi();
-        };
-
-        fetchData();
+        // const fetchData = async(): Promise<void> => {
+        //     await sampleCallApi();
+        // };
+        //
+        // fetchData();
     }, [])
 
     return (
@@ -39,6 +44,9 @@ function App() {
                 <h1>{APP_NAME}</h1>
                 <p>API URL: {API_BASE_URL}</p>
                 <p>Version: {APP_VERSION}</p>
+
+                { name && <p>Name : {name}</p> }
+                { age != 0 && <p>Age : {age}</p> }
             </div>
             <div>
                 <a href="https://vite.dev" target="_blank">
@@ -50,7 +58,10 @@ function App() {
             </div>
             <h1>Vite + React</h1>
             <div className="card">
-                <button onClick={() => setCount((count) => count + 1)}>
+                {/*<button onClick={() => setCount((count) => count + 1)}>*/}
+                {/*    count is {count}*/}
+                {/*</button>*/}
+                <button onClick={clickEvent}>
                     count is {count}
                 </button>
                 <p>

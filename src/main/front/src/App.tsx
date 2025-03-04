@@ -3,11 +3,9 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
-import {API_BASE_URL, APP_NAME, APP_VERSION} from "./config";
-
 import { sendData } from "./api/SampleService"
 import { SampleParams } from "./types/SampleParams"
-import { ApiResponse } from "./types/ApiCommonTypes"
+import { ApiResponse } from "./types/ApiResponseTypes"
 
 function App() {
     const [count, setCount] = useState<number>(0)
@@ -26,25 +24,21 @@ function App() {
         setCount(resp.body.age);
     }
 
-    const clickEvent = () => {
-        sampleCallApi();
+    const clickEvent = async () => {
+        await sampleCallApi();
     }
 
+    // const clickEvent2 = () => {
+    //     void sampleCallApi();        // void => .then() 경고문 제거
+    // }
+
     useEffect(() => {
-        // const fetchData = async(): Promise<void> => {
-        //     await sampleCallApi();
-        // };
-        //
-        // fetchData();
-    }, [])
+        setName(`${name} ${age}`)
+    }, [age])
 
     return (
         <>
             <div>
-                <h1>{APP_NAME}</h1>
-                <p>API URL: {API_BASE_URL}</p>
-                <p>Version: {APP_VERSION}</p>
-
                 { name && <p>Name : {name}</p> }
                 { age != 0 && <p>Age : {age}</p> }
             </div>

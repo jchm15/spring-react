@@ -1,7 +1,6 @@
 import { post, get } from "../utils/axiosCommon"
 import { SampleParams } from "../types/SampleParams"
-// 사용 예시
-import { ApiResponse } from "../types/ApiCommonTypes"
+import { ApiResponse } from "../types/ApiResponseTypes"
 
 // GET 요청 예시
 export const fetchData = async (params: Partial<SampleParams>): Promise<ApiResponse> => {

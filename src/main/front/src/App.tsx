@@ -5,27 +5,32 @@ import './App.css'
 
 import {API_BASE_URL, APP_NAME, APP_VERSION} from "./config";
 
-import axios from "axios";
+import { get, post } from "./utils/axiosCommon";
+// import axios from "axios";
 
 function App() {
     const [count, setCount] = useState(0)
 
-    useEffect(() => {
+
+    const sampleCallApi = async () => {
         let params = {
             name: "hm",
             age: 30
         }
-        axios.post("/api/hello", params)
-            .then((response) => {
-                console.log(response)
-                console.log(response.data.body)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-            .finally(() => {
-                console.log("finally")
-            })
+        let newVar = await post("/api/hello", params);
+        console.log(newVar)
+    }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await sampleCallApi();
+        };
+
+        fetchData();
+        // (async () => {
+        //     let rtnData = await sampleCallApi()
+        //     console.log(rtnData)
+        // })();
     }, [])
 
     return (

@@ -33,6 +33,8 @@ function App() {
     // }
 
     useEffect(() => {
+        if(!name) return;
+
         setName(`${name} ${age}`)
     }, [age])
 
